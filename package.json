@@ -1,0 +1,35 @@
+{
+  "name": "url-type",
+  "version": "0.0.1",
+  "description": "Categorize URLs by their semantics.",
+  "main": "index.js",
+  "homepage": "https://github.com/sholladay/url-type",
+  "author": {
+    "name": "Seth Holladay",
+    "url": "http://seth-holladay.com"
+  },
+  "scripts": {
+    "test": "node node_modules/.bin/grunt test"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": "~0.10.36",
+    "npm": "~2.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:sholladay/url-type.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sholladay/url-type/issues"
+  },
+  "keywords": [
+    "url",
+    "category",
+    "type",
+    "parser",
+    "processor",
+    "protocol"
+  ],
+  "license": "MPL-2.0"
+}
