@@ -1,6 +1,6 @@
 {
   "name": "url-type",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Categorize URLs by their semantics.",
   "main": "index.js",
   "homepage": "https://github.com/sholladay/url-type",
