@@ -1,7 +1,9 @@
+'use strict';
+
 function isAbsolute(url) {
 
     // This function is designed to return whether a URL
-    // is fully resolved (has a protocol).
+    // is fully resolved (has a scheme).
 
     return /^\w+:/.test(url);
 }
@@ -14,20 +16,20 @@ function isRelative(url) {
     return !isAbsolute(url);
 }
 
-function isProtocolRelative(url) {
+function isSchemeRelative(url) {
 
     // This function is designed to return whether a URL
-    // is relative only to a protocol.
+    // is relative only to a scheme.
 
     return url.indexOf('//') === 0;
 }
 
-function isHostRelative(url) {
+function isOriginRelative(url) {
 
     // This function is designed to return whether a URL
     // is relative to the root directory of its host.
 
-    return !isProtocolRelative(url) && url.indexOf('/') === 0;
+    return !isSchemeRelative(url) && url.indexOf('/') === 0;
 }
 
 function isDirectoryRelative(url) {
@@ -36,7 +38,7 @@ function isDirectoryRelative(url) {
     // would change directories differently depending
     // on the current path.
 
-    return isRelative(url) && !isProtocolRelative(url) && !isHostRelative(url);
+    return isRelative(url) && !isSchemeRelative(url) && !isOriginRelative(url);
 }
 
 function relativeTo(url) {
@@ -44,14 +46,14 @@ function relativeTo(url) {
     // This function is designed to return the type of
     // relativity (or lack thereof) for a URL.
 
-    var result;
+    let result = null;
 
     if (isRelative(url)) {
-        if (isProtocolRelative(url)) {
-            result = 'protocol';
+        if (isSchemeRelative(url)) {
+            result = 'scheme';
         }
-        else if (isHostRelative(url)) {
-            result = 'host';
+        else if (isOriginRelative(url)) {
+            result = 'origin';
         }
         else if (isDirectoryRelative(url)) {
             result = 'directory';
@@ -66,27 +68,31 @@ function hasHost(url) {
     // This function is designed to return whether a URL
     // is resolved enough to contain a host.
 
-    return isAbsolute(url) || isProtocolRelative(url);
+    return isAbsolute(url) || isSchemeRelative(url);
 }
 
-function getProtocol(url, keepSeparator) {
+function getScheme(url, opts) {
 
-    // This function is designed to return the protocol
+    // This function is designed to return the scheme
     // used by a URL.
 
-    return url.match(/^(\w+):(?:\/\/)?/)[keepSeparator ? 0 : 1];
+    if (!opts) {
+        opts = {};
+    }
+
+    return url.match(/^(\w+):(?:\/\/)?/)[opts.keepSeparator ? 0 : 1];
 }
 
 function isHttpOrHttps(url) {
 
-    // This function is designed to return whether a URL uses exactly
-    // HTTP or HTTPS as its protocol. This is useful for web server
-    // logic based on type of traffic.
+    // This function is designed to return whether a URL uses one of the
+    // schemes for HTTP or HTTPS. This is useful for web server logic
+    // to route or filter traffic.
 
     return /^(?:https?):/i.test(url);
 }
 
-function app(url) {
+function urlType(url) {
 
     // This function is designed to return whether a URL
     // is absoute or relative.
@@ -94,14 +100,14 @@ function app(url) {
     return isAbsolute(url) ? 'absolute' : 'relative';
 }
 
-app.isAbsolute          = isAbsolute;
-app.isRelative          = isRelative;
-app.isProtocolRelative  = isProtocolRelative;
-app.isHostRelative      = isHostRelative;
-app.isDirectoryRelative = isDirectoryRelative;
-app.relativeTo          = relativeTo;
-app.hasHost             = hasHost;
-app.getProtocol         = getProtocol;
-app.isHttpOrHttps       = isHttpOrHttps;
+urlType.isAbsolute          = isAbsolute;
+urlType.isRelative          = isRelative;
+urlType.isSchemeRelative    = isSchemeRelative;
+urlType.isOriginRelative    = isOriginRelative;
+urlType.isDirectoryRelative = isDirectoryRelative;
+urlType.relativeTo          = relativeTo;
+urlType.hasHost             = hasHost;
+urlType.getScheme           = getScheme;
+urlType.isHttpOrHttps       = isHttpOrHttps;
 
-module.exports = app;
+module.exports = urlType;

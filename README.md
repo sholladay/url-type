@@ -11,12 +11,12 @@ npm install url-type --save
 
 Get it into your program.
 ````javascript
-var urlType = require('url-type');
+const urlType = require('url-type');
 ````
 
 Tell if a URL is relative or absolute.
 ````javascript
-var category = urlType(
+let category = urlType(
     '//example.com:8000'  // url to analyze
 );
 console.log(category);  // => 'relative'
@@ -24,7 +24,7 @@ console.log(category);  // => 'relative'
 
 Save time and space.
 ````javascript
-var relative = urlType.isRelative(
+let relative = urlType.isRelative(
     '//example.com:8000'  // url to analyze
 );
 console.log(relative);  // => true
@@ -32,14 +32,15 @@ console.log(relative);  // => true
 
 But that's boring, so let's find out what it is relative to.
 ````javascript
-var relativity = urlType.isRelativeTo(
+let relativity = urlType.isRelativeTo(
     '//example.com:8000'
 );
-console.log(relativity);  // => 'protocol'
+console.log(relativity);  // => 'scheme'
 ````
 
 ## Contributing
 See our [contribution guidelines](https://github.com/sholladay/url-type/blob/master/CONTRIBUTING.md "The guidelines for being involved in this project.") for mode details.
+
 1. [Fork it](https://github.com/sholladay/url-type/fork).
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
