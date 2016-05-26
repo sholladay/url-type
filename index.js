@@ -1,80 +1,56 @@
 'use strict';
 
+// Determine whether a URL is fully resolved (has a scheme).
 function isAbsolute(url) {
-
-    // This function is designed to return whether a URL
-    // is fully resolved (has a scheme).
-
     return /^\w+:/.test(url);
 }
 
+// Determine whether a URL is not fully resolved.
 function isRelative(url) {
-
-    // This function is designed to return whether a URL
-    // is not fully resolved.
-
     return !isAbsolute(url);
 }
 
+// Determine whether a URL is relative only to a scheme.
 function isSchemeRelative(url) {
-
-    // This function is designed to return whether a URL
-    // is relative only to a scheme.
-
-    return url.indexOf('//') === 0;
+    return url.startsWith('//');
 }
 
+// Determine whether a URL is relative to the root directory of its host.
 function isOriginRelative(url) {
-
-    // This function is designed to return whether a URL
-    // is relative to the root directory of its host.
-
-    return !isSchemeRelative(url) && url.indexOf('/') === 0;
+    return !isSchemeRelative(url) && url.startsWith('/');
 }
 
+// Determine whether a URL would change directories differently depending
+// on the current path.
 function isDirectoryRelative(url) {
-
-    // This function is designed to return whether a URL
-    // would change directories differently depending
-    // on the current path.
-
     return isRelative(url) && !isSchemeRelative(url) && !isOriginRelative(url);
 }
 
+// Determine the type of relativity (or lack thereof) for a URL.
 function relativeTo(url) {
-
-    // This function is designed to return the type of
-    // relativity (or lack thereof) for a URL.
-
-    let result = null;
 
     if (isRelative(url)) {
         if (isSchemeRelative(url)) {
-            result = 'scheme';
+            return 'scheme';
         }
         else if (isOriginRelative(url)) {
-            result = 'origin';
+            return 'origin';
         }
         else if (isDirectoryRelative(url)) {
-            result = 'directory';
+            return 'directory';
         }
     }
 
-    return result;
+    return null;
 }
 
+// Determine whether a URL is resolved enough to contain a host.
 function hasHost(url) {
-
-    // This function is designed to return whether a URL
-    // is resolved enough to contain a host.
-
     return isAbsolute(url) || isSchemeRelative(url);
 }
 
+// Get the scheme used by a URL.
 function getScheme(url, opts) {
-
-    // This function is designed to return the scheme
-    // used by a URL.
 
     if (!opts) {
         opts = {};
@@ -83,20 +59,14 @@ function getScheme(url, opts) {
     return url.match(/^(\w+):(?:\/\/)?/)[opts.keepSeparator ? 0 : 1];
 }
 
+// Determine whether a URL uses one of the schemes for HTTP or HTTPS. This is
+// useful for web servers to route or filter traffic.
 function isHttpOrHttps(url) {
-
-    // This function is designed to return whether a URL uses one of the
-    // schemes for HTTP or HTTPS. This is useful for web server logic
-    // to route or filter traffic.
-
     return /^(?:https?):/i.test(url);
 }
 
+// Determine whether a URL is absolute or relative.
 function urlType(url) {
-
-    // This function is designed to return whether a URL
-    // is absoute or relative.
-
     return isAbsolute(url) ? 'absolute' : 'relative';
 }
 
