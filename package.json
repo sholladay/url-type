@@ -1,7 +1,7 @@
 {
   "name": "url-type",
   "version": "0.1.1",
-  "description": "Categorize URLs by their semantics.",
+  "description": "Categorize URLs by semantics.",
   "homepage": "https://github.com/sholladay/url-type",
   "main": "index.js",
   "author": {
@@ -10,7 +10,7 @@
     "email": "me@seth-holladay.com"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "xo"
   },
   "repository": {
     "type": "git",
@@ -20,10 +20,17 @@
     "url": "https://github.com/sholladay/url-type/issues",
     "email": "me@seth-holladay.com"
   },
+  "engines": {
+    "node": ">=6"
+  },
   "license": "MPL-2.0",
   "files": [
     "index.js"
   ],
+  "devDependencies": {
+    "eslint-config-tidy": "0.3.1",
+    "xo": "0.16.0"
+  },
   "keywords": [
     "url",
     "category",
@@ -33,5 +40,8 @@
     "protocol",
     "absolute",
     "relative"
-  ]
+  ],
+  "xo": {
+    "extend": "tidy"
+  }
 }

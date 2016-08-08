@@ -1,6 +1,6 @@
-# url-type
+# url-type [![Build status for url-type on Circle CI.](https://img.shields.io/circleci/project/sholladay/url-type/master.svg "Circle Build Status")](https://circleci.com/gh/sholladay/url-type "URL Type Builds")
 
-> Categorize URLs by their semantics.
+> Categorize URLs by semantics.
 
 ## Why?
 
