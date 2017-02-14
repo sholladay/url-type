@@ -12,12 +12,12 @@ const isRelative = (url) => {
 
 // Determine whether a URL is relative only to a scheme.
 const isSchemeRelative = (url) => {
-    return url.startsWith('//');
+    return typeof url === 'string' && url.startsWith('//');
 };
 
 // Determine whether a URL is relative to the root directory of its host.
 const isOriginRelative = (url) => {
-    return !isSchemeRelative(url) && url.startsWith('/');
+    return typeof url === 'string' && url.startsWith('/') && !url.startsWith('//');
 };
 
 // Determine whether a URL would change directories differently depending
@@ -28,16 +28,14 @@ const isDirectoryRelative = (url) => {
 
 // Determine the type of relativity (or lack thereof) for a URL.
 const relativeTo = (url) => {
-    if (isRelative(url)) {
-        if (isSchemeRelative(url)) {
-            return 'scheme';
-        }
-        else if (isOriginRelative(url)) {
-            return 'origin';
-        }
-        else if (isDirectoryRelative(url)) {
-            return 'directory';
-        }
+    if (isSchemeRelative(url)) {
+        return 'scheme';
+    }
+    if (isOriginRelative(url)) {
+        return 'origin';
+    }
+    if (isDirectoryRelative(url)) {
+        return 'directory';
     }
 
     return null;
@@ -48,17 +46,26 @@ const hasHost = (url) => {
     return isAbsolute(url) || isSchemeRelative(url);
 };
 
-// Get the scheme used by a URL.
-const getScheme = (url, option) => {
-    const config = Object.assign({}, option);
+const matchScheme = (url) => {
+    return (url && typeof url === 'string') ?
+        url.match(/^(\w+):(?:\/\/)?/) :
+        null;
+};
 
-    return url.match(/^(\w+):(?:\/\/)?/)[config.keepSeparator ? 0 : 1];
+// Get the scheme used by a URL.
+const getScheme = (url) => {
+    const match = matchScheme(url);
+    return match && match[1];
+};
+getScheme.keepSeparator = (url) => {
+    const match = matchScheme(url);
+    return match && match[0];
 };
 
 // Determine whether a URL uses one of the schemes for HTTP or HTTPS. This is
 // useful for web servers to route or filter traffic.
 const isHttpOrHttps = (url) => {
-    return /^(?:https?):/i.test(url);
+    return /^https?:/i.test(url);
 };
 
 // Determine whether a URL is absolute or relative.
