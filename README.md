@@ -22,32 +22,82 @@ Get it into your program.
 const urlType = require('url-type');
 ```
 
-Tell if a URL is relative or absolute.
+Ask if a URL is relative or absolute.
 
 ```js
-const category = urlType(
-    '//example.com:8000'  // url to analyze
-);
-console.log(category);  // => 'relative'
+const category = urlType('//example.com:8000');
+console.log(category === 'relative');  // => true
 ```
 
 Save time and space.
 
 ```js
-const relative = urlType.isRelative(
-    '//example.com:8000'  // url to analyze
-);
+const relative = urlType.isRelative('//example.com:8000');
 console.log(relative);  // => true
 ```
 
 But that is boring, so let's find out what it is relative to.
 
 ```js
-const relativity = urlType.relativeTo(
-    '//example.com:8000'
-);
+const relativity = urlType.relativeTo('//example.com:8000');
 console.log(relativity);  // => 'scheme'
 ```
+
+## API
+
+### urlType(url)
+
+Returns a string for the URL type, either `absolute` or `relative`.
+
+### urlType.isAbsolute(url)
+
+Returns a boolean for whether the URL has a scheme.
+
+### urlType.isRelative(url)
+
+Returns a boolean for whether the URL is relative, which means it is _not absolute_. That is, anything that does not start with a scheme, such as `foo`, `./foo`, `../foo`, `/foo`, or `//foo.com`.
+
+### urlType.isSchemeRelative(url)
+
+Returns a boolean for whether the URL is relative to a scheme. That is, anything that starts with two `//` slashes, such as `//foo.com`.
+
+### urlType.isOriginRelative(url)
+
+Returns a boolean for whether the URL is relative to an origin. That is, anything that starts with a `/` slash except for scheme relative URLs, such as `/foo`.
+
+### urlType.isDirectoryRelative(url)
+
+Returns a boolean for whether the URL is relative to a directory. That is, anything that doesn't start with a `/` slash or a scheme, such as as `foo`, `./foo`, or `../foo`.
+
+### urlType.relativeTo(url)
+
+Returns a string for the type of relativity, one of `scheme`, `origin`, or `directory`. Returns `null` If the URL is not relative.
+
+### urlType.hasHost(url)
+
+Returns a boolean for whether the URL has a host.
+
+### urlType.getScheme(url)
+
+Returns the scheme name.
+
+Example: `https` or `mailto`
+
+### urlType.getScheme.keepSeparator(url)
+
+Returns the scheme name with separator.
+
+Example: `https://` or `mailto:`
+
+### urlType.isHttpOrHttps(url)
+
+Returns a boolean for whether the URL has an `http` or `https` scheme.
+
+#### url
+
+Type: `string`
+
+A URL to analyze, such as `http://example.com`.
 
 ## Contributing
 
